@@ -61,6 +61,10 @@ const deleteDoc = async (collectionName, documentId) => {
 const searchDoc = async (collectionName, fieldName, fieldValue) => {
   const query = db.collection(collectionName).where(fieldName, "==", fieldValue);
   query.get().then((querySnapshot) => {
+    if (querySnapshot.empty) {
+      console.log(`No documents found for the given ${fieldName}: ${fieldValue}`);
+      return;
+    }
     querySnapshot.forEach((doc) => {
       console.log("Document data:", doc.data());
     });
